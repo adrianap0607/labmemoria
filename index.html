@@ -8,7 +8,7 @@
    
     body {
       font-family: sans-serif;
-      background: #f0f0f0;
+      background: #001a33;
       margin: 0;
       padding: 20px;
       display: flex;
@@ -20,9 +20,15 @@
     
     h1 {
       text-align: center;
+      color: white;
     }
 
-    /* Aquí se define la cuadrícula donde van las cartas */
+    h2 {
+      text-align: center;
+      color: white;
+    }
+
+    /*  Se define la cuadrícula donde van las cartas */
     .grid {
       display: grid;
       grid-template-columns: repeat(4, 130px); 
@@ -31,7 +37,7 @@
       margin-top: 20px;
     }
 
-    /* Contenedor de cada carta, necesario para poder realizar el efecto */
+    /* Contenedor de cada carta, me permite que pueda realizar el efectp */
     .card-container {
       perspective: 1000px;
       width: 130px;
@@ -60,7 +66,7 @@
       width: 100%;
       height: 100%;
       border-radius: 8px;
-      backface-visibility: hidden; /* Oculta la cara trasera cuando no está visible */
+      backface-visibility: hidden; 
       display: flex;
       align-items: center;
       justify-content: center;
@@ -71,12 +77,13 @@
     /* Estilo del frente de la carta */
     .card-front {
       background-color: #333;
-      border-bottom: 4px solid #1a1a1a; 
+      border: 3px solid white;
     }
 
     /* Estilo del reverso de la carta, que se ve cuando está volteada */
     .card-back {
       background-color: #4CAF50;
+      border: 3px solid white;
       transform: rotateY(180deg);
       font-weight: bold;
       font-size: 78px;
@@ -109,13 +116,15 @@
     // Componente que representa cada carta individual del juego
     
     const Card = ({ id, value, flipped, matched, onClick }) => {
-      // Colores rosas para las cartas, para que se vean diferentes pero dentro de una paleta
-      const pinkColors = [
-        '#ffc1cc', '#ffb7d5', '#f78fa7', '#ffb7c5',
-        '#ff66cc', '#f4c2c2', '#ff69b4', '#ff99cc'
+      
+      const emojiColors = [
+        '#9bf6ff', '#ffffff','#bdb2ff', '#ffc6ff', '#ffad69', '#fdffb6', '#caffbf', '#ff6b6b'  
       ];
+      // emojis  para las cartas
+      const emojis = ["🩵", "🤍", "💜", "🩷", "🧡", "💛", "💚", "❤️"];
+      const emoji = emojis[value % emojis.length];
       // El color de fondo depende del valor de la carta para que las parejas tengan el mismo color
-      const backgroundColor = pinkColors[value % pinkColors.length];
+      const backgroundColor = emojiColors[value % emojiColors.length];
       
       return (
         <div className="card-container">
@@ -126,7 +135,6 @@
             style={matched ? { visibility: 'hidden' } : {}} // Oculta la carta si ya está emparejada
           >
             <div className="card-front">
-              {/* Texto fijo que aparece en el frente de todas las cartas */}
               <div style={{
                 position: 'absolute',
                 top: '40px',
@@ -140,7 +148,7 @@
                 Memoria
               </div>
               {/* diseño SVG que aparece en el frente de la carta */}
-              <svg viewBox="0 0 600 900" xmlns="http://www.w3.org/2000/svg">
+              <svg viewBox="0 0 600 900" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
                 <rect x="0" y="0" width="600" height="900" fill="#001122"></rect>
                 <path d="M0 301L14.3 328.3C28.7 355.7 57.3 410.3 85.8 429C114.3 447.7 142.7 430.3 171.2 415.7C199.7 401 228.3 389 257 371.5C285.7 354 314.3 331 343 353.8C371.7 376.7 400.3 445.3 428.8 456.8C457.3 468.3 485.7 422.7 514.2 407.2C542.7 391.7 571.3 406.3 585.7 413.7L600 421L600 901L585.7 901C571.3 901 542.7 901 514.2 901C485.7 901 457.3 901 428.8 901C400.3 901 371.7 901 343 901C314.3 901 285.7 901 257 901C228.3 901 199.7 901 171.2 901C142.7 901 114.3 901 85.8 901C57.3 901 28.7 901 14.3 901L0 901Z" fill="#c62368"></path>
                 <path d="M0 480L14.3 479.5C28.7 479 57.3 478 85.8 472.2C114.3 466.3 142.7 455.7 171.2 458.8C199.7 462 228.3 479 257 487.2C285.7 495.3 314.3 494.7 343 484.3C371.7 474 400.3 454 428.8 452.5C457.3 451 485.7 468 514.2 491.3C542.7 514.7 571.3 544.3 585.7 559.2L600 574L600 901L585.7 901C571.3 901 542.7 901 514.2 901C485.7 901 457.3 901 428.8 901C400.3 901 371.7 901 343 901C314.3 901 285.7 901 257 901C228.3 901 199.7 901 171.2 901C142.7 901 114.3 901 85.8 901C57.3 901 28.7 901 14.3 901L0 901Z" fill="#d34f77"></path>
@@ -150,12 +158,14 @@
                 <path d="M0 835L14.3 823.8C28.7 812.7 57.3 790.3 85.8 789C114.3 787.7 142.7 807.3 171.2 813.2C199.7 819 228.3 811 257 812.7C285.7 814.3 314.3 825.7 343 829.5C371.7 833.3 400.3 829.7 428.8 824.3C457.3 819 485.7 812 514.2 799.7C542.7 787.3 571.3 769.7 585.7 760.8L600 752L600 901L585.7 901C571.3 901 542.7 901 514.2 901C485.7 901 457.3 901 428.8 901C400.3 901 371.7 901 343 901C314.3 901 285.7 901 257 901C228.3 901 199.7 901 171.2 901C142.7 901 114.3 901 85.8 901C57.3 901 28.7 901 14.3 901L0 901Z" fill="#f7caca"></path>
               </svg>
             </div>
-            {/* Parte trasera de la carta que muestra el valor y color */}
+            {/* Parte trasera de la carta que muestra el emoji y color */}
             <div
               className="card-back"
               style={{ backgroundColor }}
             >
-              {value}
+              <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {emoji}
+              </div>
             </div>
           </div>
         </div>
@@ -244,7 +254,7 @@
           <h1>Juego de Memoria</h1>
           <h2>Movimientos: {moves}</h2>
           {/* Mensaje que aparece cuando todas las cartas están emparejadas */}
-          {matchedIds.length === cards.length && <h2>¡Juego completado!</h2>}
+          {matchedIds.length === cards.length && <h2>¡Has completado el juego!</h2>}
           
           <div className="grid">
             {cards.map(card => (
